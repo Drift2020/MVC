@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    #listofthings li {
+        display: inline-block;
+    }
+
+    .picture {
+        background-repeat: no-repeat;
+        width: 80px;
+        height: 80px;
+        position: absolute;
+    }
+
+    .description {
+        position: relative;
+        top: 0;
+        margin-left: 80px;
+        padding-bottom: 2em;
+    }
+</style>
+<div>
+
+    <p>Some content</p>
+    <div id="myPartialViewContainer">
+        <form>
+            <table id="myTabl"></table>
+        </form>
+        <div >
+            <ul id="listofthings">
+                <li>
+                    <div class="card">
+                        <a onclick="CreateTable()">1</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>Some other content</div>
+
+
+
+</div>
+<script>
+    function clickPage(elem) {
+
+
+        var thisElement = elem;
+        alert(thisElement);
+
+        var Pages = parseInt(thisElement.innerText.toString());
+        alert(Pages);
+
+        $.ajax({
+            type: "GET",
+            url: "/Games/Pages",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            dataType: "html",
+            data: {
+                page: Pages
+            },
+            success: function (result, status, xhr) {
+                CreateTable();
+            }
+        });
+
+
+
+    }
+
+    function CreateTable() {
+        var table = document.getElementById('myTabl');
+        var lastDate = 12;
+        var lastDateTbody = 12;
+        var tr_thead = table.appendChild(document.createElement('thead')).appendChild(document.createElement('tr'));
+        var tr = table.appendChild(document.createElement('tbody')).appendChild(document.createElement('tr'));
+        var tr_thead_mas = ['Название', 'Сервер', 'Название', 'Маркет ID', 'Impressions', 'Clicks', 'CTR', 'Revenue', 'ECPM', 'DAU', 'GeoMap (Impressions)','CashMagnet (DAU)'];
+
+        for (var i = 0; i < lastDate; i++) {
+            var th = document.createElement('th');
+            th.innerText = tr_thead_mas[i] + i.toString();
+            tr_thead.appendChild(th);
+
+        }
+        for (var i = 0; i < lastDateTbody; i++) {
+            var td = document.createElement('td');
+            td.style.textAlign = "center";
+            td.style.verticalAlign = "middle";
+
+            if (i < 4) {
+                var my_span
+                td.appendChild(document.createElement('span'));
+                td.childNodes[0].innerText = 'text';
+            }
+            td.innerText = 'text' + i.toString();
+            tr.appendChild(td);
+
+        }
+        alert("hi");
+    }
+</script>
+
